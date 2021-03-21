@@ -1,6 +1,7 @@
 import logging
 
 from algorithms.BSearch import binary_search
+from algorithms.BSearchAns import binary_search_by_answer
 from algorithms.addition import addition
 
 ADDING_IN = [f"tests\\addition\\{i}.in" for i in range(1, 3)]
@@ -8,6 +9,10 @@ ADDING_OUT = [f"tests\\addition\\{i}.out" for i in range(1, 3)]
 
 BINARY_SEARCH_IN = [f"tests\\binary-search\\{i}.in" for i in range(1, 6)]
 BINARY_SEARCH_OUT = [f"tests\\binary-search\\{i}.out" for i in range(1, 6)]
+
+BINARY_SEARCH_BY_RESULTS_IN = [f"tests\\binary-search-by-results\\{i}.in" for i in range(1, 6)]
+BINARY_SEARCH_BY_RESULTS_OUT = [f"tests\\binary-search-by-results\\{i}.out" for i in range(1, 6)]
+
 
 logging.basicConfig(level=logging.INFO)
 
@@ -53,7 +58,7 @@ def binary_search_test():
         for i in range(k):
             val = int(fin.readline())
             right_answer: int = int(fout.readline())
-            get_result: int = binary_search(array, val, right=n-1)
+            get_result: int = binary_search(array, val, right=n - 1)
             if get_result != right_answer:
                 log.info(
                     f"Test {file_id + 1} failed on the position {i} ({val}): expected {right_answer},"
@@ -67,6 +72,31 @@ def binary_search_test():
         fout.close()
 
 
+def binary_search_by_answer_test():
+    log = logging.getLogger("BinarySearchOnTheResult")
+    for file_id in range(len(BINARY_SEARCH_BY_RESULTS_IN)):
+        log.info(f"Test {file_id + 1}...")
+        fin = open(BINARY_SEARCH_BY_RESULTS_IN[file_id], "r")
+        fout = open(BINARY_SEARCH_BY_RESULTS_OUT[file_id], "r")
+        N = int(fin.readline())
+        k = int(fin.readline())
+        array = []
+        for i in range(N):
+            array.append(int(fin.readline()))
+        get_result: int = binary_search_by_answer(array, N, k, right=array[-1])
+        right_answer: int = int(fout.readline())
+
+        if (get_result != right_answer):
+            log.info(
+                f"Test {file_id + 1} failed: expected {right_answer}, were got {get_result}")
+        else:
+            log.info(f"Test {file_id + 1} passed!")
+
+        fin.close()
+        fout.close()
+
+
 if __name__ == '__main__':
     adding_test()
-    binary_search_test()
+    #binary_search_test()
+    binary_search_by_answer_test()
