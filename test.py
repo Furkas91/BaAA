@@ -13,6 +13,9 @@ BINARY_SEARCH_OUT = [f"tests\\binary-search\\{i}.out" for i in range(1, 6)]
 BINARY_SEARCH_BY_RESULTS_IN = [f"tests\\binary-search-by-results\\{i}.in" for i in range(1, 6)]
 BINARY_SEARCH_BY_RESULTS_OUT = [f"tests\\binary-search-by-results\\{i}.out" for i in range(1, 6)]
 
+BINARY_TREE_IN = [f"tests\\binary-tree\\{i}.in" for i in range(1, 8)]
+BINARY_TREE_CONTAINS_OUT = [f"tests\\binary-tree\\{i}.contains.out" for i in range(1, 8)]
+BINARY_TREE_MIN_AFTER_OUT = [f"tests\\binary-tree\\{i}.min-after.out" for i in range(1, 8)]
 
 logging.basicConfig(level=logging.INFO)
 
@@ -96,7 +99,32 @@ def binary_search_by_answer_test():
         fout.close()
 
 
+def default_binary_tree_test():
+    log = logging.getLogger("BinaryTree")
+    for file_id in range(len(BINARY_TREE_IN)):
+        log.info(f"Test {file_id + 1}...")
+        fin = open(BINARY_TREE_IN[file_id], "r")
+        fout = open(BINARY_TREE_CONTAINS_OUT[file_id], "r")
+        fout2 = open(BINARY_TREE_MIN_AFTER_OUT[file_id], "r")
+        N = int(fin.readline())
+        k = int(fin.readline())
+        array = []
+        for i in range(N):
+            array.append(int(fin.readline()))
+        get_result: int = binary_search_by_answer(array, N, k, right=array[-1])
+        right_answer: int = int(fout.readline())
+
+        if (get_result != right_answer):
+            log.info(
+                f"Test {file_id + 1} failed: expected {right_answer}, were got {get_result}")
+        else:
+            log.info(f"Test {file_id + 1} passed!")
+
+        fin.close()
+        fout.close()
+
+
 if __name__ == '__main__':
     adding_test()
-    #binary_search_test()
+    # binary_search_test()
     binary_search_by_answer_test()
