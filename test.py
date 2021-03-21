@@ -1,9 +1,13 @@
 import logging
 
+from algorithms.BSearch import binary_search
 from algorithms.addition import addition
 
 ADDING_IN = [f"tests\\addition\\{i}.in" for i in range(1, 3)]
 ADDING_OUT = [f"tests\\addition\\{i}.out" for i in range(1, 3)]
+
+BINARY_SEARCH_IN = [f"tests\\binary-search\\{i}.in" for i in range(1, 6)]
+BINARY_SEARCH_OUT = [f"tests\\binary-search\\{i}.out" for i in range(1, 6)]
 
 logging.basicConfig(level=logging.INFO)
 
@@ -35,5 +39,34 @@ def adding_test():
         fout.close()
 
 
+def binary_search_test():
+    log = logging.getLogger("BinarySearch")
+    for file_id in range(len(BINARY_SEARCH_IN)):
+        log.info(f"Test {file_id + 1}...")
+        fin = open(BINARY_SEARCH_IN[file_id], "r")
+        fout = open(BINARY_SEARCH_OUT[file_id], "r")
+        n = int(fin.readline())
+        array = fin.readline().split()
+        array = [int(i) for i in array]
+        k = int(fin.readline())
+        flag = True
+        for i in range(k):
+            val = int(fin.readline())
+            right_answer: int = int(fout.readline())
+            get_result: int = binary_search(array, val, right=n-1)
+            if get_result != right_answer:
+                log.info(
+                    f"Test {file_id + 1} failed on the position {i} ({val}): expected {right_answer},"
+                    f" were got {get_result}")
+                flag = False
+            if not flag:
+                break
+        if flag:
+            log.info(f"Test {file_id + 1} passed!")
+        fin.close()
+        fout.close()
+
+
 if __name__ == '__main__':
     adding_test()
+    binary_search_test()

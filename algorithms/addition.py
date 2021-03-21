@@ -4,7 +4,8 @@ import itertools
 def addition(a: object, b: object) -> str:
     """
 
-    :rtype: object
+    Сложение двух длиных чисел, числа могут быть представлены как целые,
+    так и как строки.
     """
     if isinstance(a, int) and isinstance(b, int):
         return str(a + b)
