@@ -6,6 +6,7 @@ def addition(a: object, b: object) -> str:
 
     Сложение двух длиных чисел, числа могут быть представлены как целые,
     так и как строки.
+    :rtype: str
     """
     if isinstance(a, int) and isinstance(b, int):
         return str(a + b)

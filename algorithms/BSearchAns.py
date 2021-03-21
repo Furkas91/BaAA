@@ -16,6 +16,7 @@ def binary_search_by_answer(array: list, N: int, k: int, left: int = 0, right: i
     """
 
     Бинарный поиск по ответу, выполненный по рекурсии
+    :rtype: int
     """
     middle = (left + right) // 2
     if left == right:
