@@ -44,6 +44,18 @@ def print_test(first: Node, second: Node):
         print(f'{first} и {second} не лежат в одном множестве')
 
 
+def text_test(first: Node, second: Node):
+    """
+    Возвращает результат проверки находятся ли элементы в одном множестве текстом.
+
+    :type first: Node
+    :type second: Node
+    """
+    if test(first, second):
+        return 'YES'
+    else:
+        return 'NO'
+
 def unite(first: Node, second: Node):
     """
     Объединяет два непересекающихся множества, определенных по элементам из них
@@ -57,6 +69,13 @@ def unite(first: Node, second: Node):
         second.parent = first
     else:
         first.parent = second
+
+
+def add_node_structure(*args):
+    """
+    Оборочивает любое число элементов в стуктуру Node.
+    """
+    return [Node(arg) for arg in args]
 
 
 if __name__ == '__main__':
