@@ -2,6 +2,7 @@ class Node:
     def __init__(self, value, parent=None):
         self.parent = parent
         self.value = value
+        self.rank = 0
 
     def __eq__(self, other):
         return self.value == other.value
@@ -50,7 +51,12 @@ def unite(first: Node, second: Node):
     :type first: Node
     :type second: Node
     """
-    first.find().parent = second.find()
+    first = first.find()
+    second = second.find()
+    if first.rank > second.rank:
+        second.parent = first
+    else:
+        first.parent = second
 
 
 if __name__ == '__main__':
