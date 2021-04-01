@@ -10,6 +10,9 @@ class Node:
     def __str__(self):
         return str(self.value)
 
+    def __hash__(self):
+        return hash(self.value)
+
     def find(self):
         """ Находит корневую вершину множества. """
 

@@ -19,6 +19,7 @@ BINARY_TREE_CONTAINS_OUT = [f"tests\\binary-tree\\{i}.contains.out" for i in ran
 BINARY_TREE_MIN_AFTER_OUT = [f"tests\\binary-tree\\{i}.min-after.out" for i in range(1, 8)]
 
 UFF_TEST = 'tests\\uff'
+BLOCKS_ON_THE_PICTURE_TEST = 'tests\\blocks'
 
 logging.basicConfig(level=logging.INFO)
 
@@ -112,21 +113,68 @@ def binary_search_by_answer_test():
 def CHM_test():
     log = logging.getLogger("CHM")
     for fin, fout, file in generator_test_files(UFF_TEST, log):
-            n: list = fin.readline().split()
-            dict = {}
-            for i in range(int(n[-1])):
-                array = fin.readline().split()
-                for num in array:
-                    if dict.get(num) is None:
-                        dict[num] = Node(num)
-                get_result = text_test(dict[array[0]], dict[array[1]])
-                if get_result == 'NO':
-                    unite(dict[array[0]], dict[array[1]])
-                right_answer = fout.readline().replace('\n', '')
-                if not get_result == right_answer:
-                    log.info(
-                        f"Test {file} failed: expected {right_answer}, were got {get_result}")
-            log.info(f"Test {file} passed!")
+        n: list = fin.readline().split()
+        dict = {}
+        for i in range(int(n[-1])):
+            array = fin.readline().split()
+            for num in array:
+                if dict.get(num) is None:
+                    dict[num] = Node(num)
+            get_result = text_test(dict[array[0]], dict[array[1]])
+            if get_result == 'NO':
+                unite(dict[array[0]], dict[array[1]])
+            right_answer = fout.readline().replace('\n', '')
+            if not get_result == right_answer:
+                log.info(
+                    f"Test {file} failed: expected {right_answer}, were got {get_result}")
+        log.info(f"Test {file} passed!")
+
+        fin.close()
+        fout.close()
+
+
+def blocks_on_the_picture():
+    log = logging.getLogger('Picture')
+    for fin, fout, file in generator_test_files(BLOCKS_ON_THE_PICTURE_TEST, log):
+        n = fin.readline().split()
+        prev = fin.readline().replace('\n', '')
+        array = {}
+        left = False
+        for j in range(len(prev)):
+            if prev[j] == '1':
+                array[(0,j)] = Node((0,j))
+                if left:
+                    unite(array[(0, j)], array[(0, j - 1)])
+                left = True
+            else:
+                left = False
+        left = False
+        for i in range(1,int(n[0])):
+            current = fin.readline().replace('\n', '')
+            for j in range(len(current)):
+                if current[j] == '1':
+                    array[(i, j)] = Node((i, j))
+                    if left:
+                        unite(array[(i, j)], array[(i, j - 1)])
+                    if prev[j] == '1':
+                        unite(array[(i-1, j)], array[(i, j)])
+                    left=True
+                else:
+                    left = False
+            prev = current
+            left = False
+        hash_table = set()
+        for i in array.values():
+            hash_table.add(i.find())
+        get_result = len(hash_table)
+        right_answer = int(fout.readline().replace('\n', ''))
+        if not get_result == right_answer:
+            log.info(
+                f"Test {file} failed: expected {right_answer}, were got {get_result}")
+        log.info(f"Test {file} passed!")
+
+        fin.close()
+        fout.close()
 
 
 def default_binary_tree_test():
@@ -158,7 +206,8 @@ def default_binary_tree_test():
 
 
 if __name__ == '__main__':
-    adding_test()
-    binary_search_test()
-    binary_search_by_answer_test()
-    CHM_test()
+    # adding_test()
+    # binary_search_test()
+    # binary_search_by_answer_test()
+    # CHM_test()
+    blocks_on_the_picture()
