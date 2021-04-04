@@ -47,6 +47,7 @@ class BinaryTree:
         return '+' if self.find_node(value) is not None else '-'
 
     def find_next_node(self, value):
+        """ Поиск следующего по значению узла дерева."""
         current_node = self.find_node(value)
         if current_node.right is None:
             try:

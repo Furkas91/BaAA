@@ -3,6 +3,8 @@ import os
 from logging import Logger
 from typing import TextIO
 
+from tqdm import tqdm
+
 from algorithms.BSearch import binary_search
 from algorithms.BSearchAns import binary_search_by_answer
 from algorithms.BinaryTree import BinaryTree, Treap
@@ -68,7 +70,7 @@ def adding_test():
     for fin, fout, file in generator_test_files(ADDING_TESTS, log):
         a = int(fin.readline())
         flag = True
-        for i in range(a):
+        for i in tqdm(range(a)):
             x, y = fin.readline().replace('\n', '').split(' ')
             get_result: str = addition(x, y)
             right_answer: str = fout.readline().replace('\n', '')
@@ -96,7 +98,7 @@ def binary_search_test():
         array = [int(i) for i in array]
         k = int(fin.readline())
         flag = True
-        for i in range(k):
+        for i in tqdm(range(k)):
             val = int(fin.readline())
             right_answer: int = int(fout.readline())
             get_result: int = binary_search(array, val, right=n - 1)
@@ -117,7 +119,6 @@ def binary_search_test():
 def binary_search_by_answer_test():
     log = logging.getLogger("BinarySearchByAnswer")
     for fin, fout, file in generator_test_files(BINARY_SEARCH_BY_RESULTS_TESTS, log):
-
         N = int(fin.readline())
         k = int(fin.readline())
         array = []
@@ -141,7 +142,8 @@ def CHM_test():
     for fin, fout, file in generator_test_files(UFF_TESTS, log):
         n: list = fin.readline().split()
         dict = {}
-        for i in range(int(n[-1])):
+        flag = True
+        for i in tqdm(range(int(n[-1]))):
             array = fin.readline().split()
             for num in array:
                 if dict.get(num) is None:
@@ -154,7 +156,9 @@ def CHM_test():
             if not get_result == right_answer:
                 log.info(
                     f"Test {file} failed: expected {right_answer}, were got {get_result}")
-        log.info(f"Test {file} passed!")
+                flag = False
+        if flag:
+            log.info(f"Test {file} passed!")
 
         fin.close()
         fout.close()
@@ -176,7 +180,7 @@ def blocks_on_the_picture():
             else:
                 left = False
         left = False
-        for i in range(1, int(n[0])):
+        for i in tqdm(range(1, int(n[0]))):
             current = fin.readline().replace('\n', '')
             for j in range(len(current)):
                 if current[j] == '1':
@@ -199,7 +203,8 @@ def blocks_on_the_picture():
         if not get_result == right_answer:
             log.info(
                 f"Test {file} failed: expected {right_answer}, were got {get_result}")
-        log.info(f"Test {file} passed!")
+        else:
+            log.info(f"Test {file} passed!")
 
         fin.close()
         fout.close()
@@ -226,7 +231,7 @@ def binary_tree_test(Tree):
         get_result_min_after = '- -'
         _binary_tree_test_utils(fout, fout2, get_result_contains, get_result_min_after, file, log)
         flag = True
-        for i in range(n - 1):
+        for i in tqdm(range(n - 1)):
             current_value = int(fin.readline())
             try:
                 get_result_contains: str = tree.text_find_node(current_value)
@@ -253,10 +258,10 @@ def binary_tree_test(Tree):
 
 
 if __name__ == '__main__':
-    # adding_test()
-    # binary_search_test()
-    # binary_search_by_answer_test()
-    # CHM_test()
-    # blocks_on_the_picture()
-    # binary_tree_test(BinaryTree)
+    adding_test()
+    binary_search_test()
+    binary_search_by_answer_test()
+    CHM_test()
+    blocks_on_the_picture()
+    binary_tree_test(BinaryTree)
     binary_tree_test(Treap)

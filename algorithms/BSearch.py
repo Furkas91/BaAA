@@ -1,7 +1,7 @@
 def binary_search(array: list, val: int, left: int = 0, right: int = 0) -> int:
     """
 
-    Бинари сёрч с помощью рекурсии
+    Бинарный поиск с помощью рекурсии
     :rtype: int
     """
     middle = (left + right) // 2
