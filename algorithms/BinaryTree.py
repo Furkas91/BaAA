@@ -31,9 +31,11 @@ class BinaryTree:
         self.head = BinaryTree.Node(value)
 
     def add_node(self, value):
+        """ Добавление вершины в дерево. """
         self.head.add_node(value)
 
     def find_node(self, value):
+        """ Поиск узла с заданным значением."""
         current_node = self.head
         while current_node is not None and current_node.value != value:
             if current_node.value > value:
@@ -110,10 +112,12 @@ class Treap(BinaryTree):
         self.head = Treap.Node(value)
 
     def add_node(self, value):
+        """ Добавление вершины в дерево. """
         less, greater = Treap._split(self.head, value)
         self.head = Treap._merge(Treap._merge(less, Treap.Node(value, parent=None)), greater)
 
     def find_node(self, value):
+        """ Поиск вершины с заданным значением и восстановление ссылок на родителей"""
         current_node = self.head
         while current_node is not None and current_node.value != value:
             if current_node.value > value:
